@@ -2,14 +2,12 @@
 session_start();
 include_once "../scripts/connect.php"; // Include connection script
 
-
 // Pobranie danych wszystkich studentów
 $sql_students = "
-    SELECT students.student_id, users.name AS student_name, users.surname AS student_surname, students.class
+    SELECT users.user_id, users.name AS student_name, users.surname AS student_surname, students.class
     FROM students
     INNER JOIN users ON students.user_id = users.user_id
 ";
-
 $stmt_students = $conn->prepare($sql_students);
 $stmt_students->execute();
 $students = $stmt_students->fetchAll(PDO::FETCH_ASSOC);
@@ -55,11 +53,15 @@ $students = $stmt_students->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($student['student_name'] . ' ' . $student['student_surname']); ?></td>
                             <td><?php echo htmlspecialchars($student['class']); ?></td>
                             <td class="options">
-                                <a href="Admin_marks.php?student_id=<?php echo htmlspecialchars($student['student_id']); ?>">
-                                <button>Marks</button>
+                                <a href="Admin_marks.php?student_id=<?php echo htmlspecialchars($student['user_id']); ?>">
+                                    <button>Marks</button>
                                 </a>
-                                <button>Edit</button>
-                                <button>Delete</button>
+                                <a href="edit.php?student_id=<?php echo htmlspecialchars($student['user_id']); ?>">
+                                    <button>Edit</button>
+                                </a>
+                                <a href="delete_student.php?student_id=<?php echo htmlspecialchars($student['user_id']); ?>" onclick="return confirm('Are you sure you want to delete this student?');">
+                                    <button>Delete</button>
+                                </a>
                             </td>
                         </tr>
                     <?php } ?>

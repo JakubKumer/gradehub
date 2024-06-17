@@ -2,12 +2,6 @@
 session_start();
 include_once "../scripts/connect.php"; // Include connection script
 
-// Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION['id_user'])) {
-    header("Location: login.php");
-    exit();
-}
-
 $user_id = $_GET['student_id']; // Pobranie student_id z parametru GET
 
 // Pobranie danych studenta
@@ -24,11 +18,12 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
 
 // Pobranie wszystkich przedmiotów i ocen studenta (jeśli są)
 $sql_grades = "
-    SELECT subjects.subject_name, COALESCE(grades.grade_value, 'No Grade') AS grade_value
+    SELECT subjects.subject_id, subjects.subject_name, GROUP_CONCAT(COALESCE(grades.grade_value, 'No Grade') ORDER BY grades.date_of_issuance SEPARATOR ', ') AS grades_list
     FROM subjects
-    LEFT JOIN grades ON subjects.subject_id = grades.subject_id
-    LEFT JOIN students ON grades.student_id = students.student_id
-    WHERE students.user_id = :user_id
+    LEFT JOIN grades ON subjects.subject_id = grades.subject_id AND grades.student_id = (
+        SELECT student_id FROM students WHERE user_id = :user_id
+    )
+    GROUP BY subjects.subject_id, subjects.subject_name
 ";
 $stmt_grades = $conn->prepare($sql_grades);
 $stmt_grades->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -62,7 +57,7 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
                 <thead>
                     <tr>
                         <th class="px-4 py-2">Subject</th>
-                        <th class="px-4 py-2">Grade</th>
+                        <th class="px-4 py-2">Grades</th>
                         <th class="px-4 py-2">Options</th>
                     </tr>
                 </thead>
@@ -70,11 +65,11 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($grades as $grade) { ?>
                         <tr>
                             <td class="border px-4 py-2"><?php echo htmlspecialchars($grade['subject_name']); ?></td>
-                            <td class="border px-4 py-2"><?php echo htmlspecialchars($grade['grade_value']); ?></td>
+                            <td class="border px-4 py-2"><?php echo htmlspecialchars($grade['grades_list']); ?></td>
                             <td class="border px-4 py-2">
-                                <button>Add</button>
+                                <a href="add_mark.php?student_id=<?php echo $user_id; ?>&subject_id=<?php echo $grade['subject_id']; ?>"><button>Add</button></a>
+                                <button onclick="deleteLastGrade(<?php echo $grade['subject_id']; ?>)">Delete</button>
                                 <button>Edit</button>
-                                <button>Delete</button>
                             </td>
                         </tr>
                     <?php } ?>
@@ -82,5 +77,27 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
             </table>
         </div>
     </div>
+
+    <script>
+        function deleteLastGrade(subjectId) {
+            if (confirm("Are you sure you want to delete the last grade for this subject?")) {
+                // Send AJAX request to delete last grade
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "delete_last_grade.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // Reload page after successful deletion
+                            window.location.reload();
+                        } else {
+                            alert("Failed to delete grade.");
+                        }
+                    }
+                };
+                xhr.send(`subject_id=${subjectId}&user_id=<?php echo $user_id; ?>`);
+            }
+        }
+    </script>
 </body>
 </html>
