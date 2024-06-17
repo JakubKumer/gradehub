@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'Ravie';
+    src: url('fonts/RAVIE.ttf') format('truetype');
+    
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    background-color: #f3f4f6; /* kolor tła całej strony */
+}
+
+.container {
+    background-color: #ffffff; /* kolor tła kontenera z treścią */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* cień do efektu "podniesienia" kontenera */
+}
+
+.table-auto {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* odstęp od góry */
+}
+
+.table-auto th,
+.table-auto td {
+    border: 1px solid #000000; /* kolor obramowania komórek */
+    padding: 8px;
+    text-align: left;
+    background-color: #e4e4e4; /* kolor tła wszystkich komórek */
+}
+
+.table-auto th {
+    background-color: #bbbbbb; /* kolor tła nagłówków */
+    font-weight: bold;
+}
+
+.navbar {
+    background-color: #000000; /* czarne tło paska */
+    color: #ffffff; /* kolor tekstu */
+    padding: 10px 20px; /* wewnętrzny padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-family: 'Ravie', sans-serif;
+    font-size: 1.5rem;
+    font-weight:lighter;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px; /* odstęp między linkami */
+}
+
+.navbar-links a {
+    color: #ffffff; /* kolor tekstu linków */
+    text-decoration: none; /* usunięcie podkreślenia */
+    font-size: 1rem; /* rozmiar tekstu linków */
+}

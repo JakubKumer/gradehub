@@ -1,0 +1,64 @@
+/* Dodatkowe style do paska nawigacyjnego */
+@font-face {
+    font-family: 'Ravie';
+    src: url('fonts/RAVIE.ttf') format('truetype');
+    /* Możesz dodać inne formaty, jeśli są dostępne */
+    font-weight: normal;
+    font-style: normal;
+}
+
+.navbar {
+    background-color: #000000; /* czarne tło paska */
+    color: #ffffff; /* kolor tekstu */
+    padding: 10px 20px; /* wewnętrzny padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-family: 'Ravie', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px; /* odstęp między linkami */
+}
+
+.navbar-links a {
+    color: #ffffff; /* kolor tekstu linków */
+    text-decoration: none; /* usunięcie podkreślenia */
+    font-size: 1rem; /* rozmiar tekstu linków */
+}
+
+/* Style dla tabeli studentów */
+.students-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.students-table th,
+.students-table td {
+    border: 1px solid #000000; /* kolor obramowania komórek */
+    padding: 8px;
+    text-align: left;
+    background-color: #e4e4e4; /* kolor tła wszystkich komórek */
+}
+
+.students-table th {
+    background-color: #bbbbbb; /* kolor tła nagłówków */
+    font-weight: bold;
+}
+
+.students-table td.options {
+    text-align: center;
+}
+
+.students-table td.options button {
+    margin: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
