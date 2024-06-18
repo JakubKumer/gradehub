@@ -18,7 +18,7 @@ $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
 
 // Pobranie wszystkich przedmiotów i ocen studenta (jeśli są)
 $sql_grades = "
-    SELECT subjects.subject_id, subjects.subject_name, GROUP_CONCAT(COALESCE(grades.grade_value, 'No Grade') ORDER BY grades.date_of_issuance SEPARATOR ', ') AS grades_list
+    SELECT subjects.subject_id, subjects.subject_name, GROUP_CONCAT(COALESCE(grades.grade_value, 'No Grade') ORDER BY grades.date_of_issuance DESC SEPARATOR ', ') AS grades_list
     FROM subjects
     LEFT JOIN grades ON subjects.subject_id = grades.subject_id AND grades.student_id = (
         SELECT student_id FROM students WHERE user_id = :user_id
@@ -45,7 +45,7 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
         <div class="navbar-brand">GradeEase Hub</div>
         <div class="navbar-links">
             <a href="#">Log out</a>
-            <a href="#">Change password</a>
+            <a href="change_passw.php">Change password</a> <!-- Zaktualizowany link -->
         </div>
     </div>
 
@@ -67,9 +67,9 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
                             <td class="border px-4 py-2"><?php echo htmlspecialchars($grade['subject_name']); ?></td>
                             <td class="border px-4 py-2"><?php echo htmlspecialchars($grade['grades_list']); ?></td>
                             <td class="border px-4 py-2">
-                                <a href="add_mark.php?student_id=<?php echo $user_id; ?>&subject_id=<?php echo $grade['subject_id']; ?>"><button>Add</button></a>
-                                <button onclick="deleteLastGrade(<?php echo $grade['subject_id']; ?>)">Delete</button>
-                                <button>Edit</button>
+                                <a href="add_mark.php?student_id=<?php echo $user_id; ?>&subject_id=<?php echo $grade['subject_id']; ?>" class="text-blue-500 hover:underline">Add</a>
+                                <a href="edit_mark.php?student_id=<?php echo $user_id; ?>&subject_id=<?php echo $grade['subject_id']; ?>" class="text-blue-500 hover:underline">Edit</a>
+                                <a href="delete_mark.php?student_id=<?php echo $user_id; ?>&subject_id=<?php echo $grade['subject_id']; ?>" class="text-red-500 hover:underline">Delete</a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -77,27 +77,5 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
             </table>
         </div>
     </div>
-
-    <script>
-        function deleteLastGrade(subjectId) {
-            if (confirm("Are you sure you want to delete the last grade for this subject?")) {
-                // Send AJAX request to delete last grade
-                let xhr = new XMLHttpRequest();
-                xhr.open("POST", "delete_last_grade.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            // Reload page after successful deletion
-                            window.location.reload();
-                        } else {
-                            alert("Failed to delete grade.");
-                        }
-                    }
-                };
-                xhr.send(`subject_id=${subjectId}&user_id=<?php echo $user_id; ?>`);
-            }
-        }
-    </script>
 </body>
 </html>

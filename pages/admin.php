@@ -27,7 +27,7 @@ $students = $stmt_students->fetchAll(PDO::FETCH_ASSOC);
         <div class="navbar-brand">GradeEase Hub</div>
         <div class="navbar-links">
             <a href="#">Log out</a>
-            <a href="#">Change password</a>
+            <a href="change_passw.php">Change password</a> <!-- Zaktualizowany link -->
         </div>
     </div>
 
