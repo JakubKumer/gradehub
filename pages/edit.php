@@ -2,14 +2,11 @@
 session_start();
 include_once "../scripts/connect.php"; // Include connection script
 
-<<<<<<< HEAD
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-=======
->>>>>>> 2cb5cb08c7f4060e12b8a7840cafbf492e42e10a
 
 $user_id = $_GET['student_id']; // Pobranie student_id z parametru GET
 
@@ -77,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="navbar">
         <div class="navbar-brand">GradeEase Hub</div>
         <div class="navbar-links">
-            <a href="#">Log out</a>
+            <a href="../scripts/logout.php">Log out</a>
             <a href="change_passw.php">Change password</a> <!-- Zaktualizowany link -->
         </div>
     </div>

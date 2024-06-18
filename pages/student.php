@@ -2,17 +2,7 @@
 session_start();
 include_once "../scripts/connect.php"; // Include connection script
 
-<<<<<<< HEAD
-// Check if the user is logged in
-if (!isset($_SESSION['user_id']) || $_SESSION['role_as'] != 0) {
-    header("Location: index.php");
-    exit();
-}
-
-$user_id = $_SESSION['user_id'];
-=======
 $user_id = $_SESSION['user_id']; // Pobranie user_id z sesji
->>>>>>> 2cb5cb08c7f4060e12b8a7840cafbf492e42e10a
 
 // Fetch student data
 $sql_student = "
@@ -54,13 +44,8 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
     <div class="navbar">
         <div class="navbar-brand">GradeEase Hub</div>
         <div class="navbar-links">
-<<<<<<< HEAD
-            <a href="../scripts/logout.php">Log out</a>
-            <a href="#">Change password</a>
-=======
             <a href="#">Log out</a>
             <a href="change_passw.php">Change password</a> <!-- Zaktualizowany link -->
->>>>>>> 2cb5cb08c7f4060e12b8a7840cafbf492e42e10a
         </div>
     </div>
 

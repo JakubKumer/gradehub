@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="navbar">
         <div class="navbar-brand">GradeEase Hub</div>
         <div class="navbar-links">
-            <a href="#">Log out</a>
+            <a href="../scripts/logout.php">Log out</a>
             <a href="change_passw.php">Change password</a> <!-- Zaktualizowany link -->
         </div>
     </div>
