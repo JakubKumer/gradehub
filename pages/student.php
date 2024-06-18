@@ -2,15 +2,15 @@
 session_start();
 include_once "../scripts/connect.php"; // Include connection script
 
-// Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION['id_user'])) {
-    header("Location: login.php");
+// Check if the user is logged in
+if (!isset($_SESSION['user_id']) || $_SESSION['role_as'] != 0) {
+    header("Location: index.php");
     exit();
 }
 
-$user_id = $_SESSION['id_user'];
+$user_id = $_SESSION['user_id'];
 
-// Pobranie danych studenta
+// Fetch student data
 $sql_student = "
     SELECT users.name, users.surname
     FROM users
@@ -22,7 +22,7 @@ $stmt_student->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt_student->execute();
 $student = $stmt_student->fetch(PDO::FETCH_ASSOC);
 
-// Pobranie wszystkich przedmiotów i ocen studenta (jeśli są)
+// Fetch all subjects and student grades (if any)
 $sql_grades = "
     SELECT subjects.subject_name, COALESCE(grades.grade_value, 'No Grade') AS grade_value
     FROM subjects
@@ -49,7 +49,7 @@ $grades = $stmt_grades->fetchAll(PDO::FETCH_ASSOC);
 <div class="navbar">
         <div class="navbar-brand">GradeEase Hub</div>
         <div class="navbar-links">
-            <a href="#">Log out</a>
+            <a href="../scripts/logout.php">Log out</a>
             <a href="#">Change password</a>
         </div>
     </div>

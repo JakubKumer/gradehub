@@ -3,7 +3,7 @@ session_start();
 include_once "../scripts/connect.php"; // Include connection script
 
 // Sprawdzenie, czy użytkownik jest zalogowany
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }

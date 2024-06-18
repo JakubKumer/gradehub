@@ -1,7 +1,10 @@
 <?php
 session_start();
 include_once "../scripts/connect.php"; // Include connection script
-
+if (!isset($_SESSION['user_id']) || $_SESSION['role_as'] != 1) {
+    header("Location: index.php");
+    exit();
+}
 // Pobranie danych wszystkich studentów
 $sql_students = "
     SELECT users.user_id, users.name AS student_name, users.surname AS student_surname, students.class
@@ -26,7 +29,7 @@ $students = $stmt_students->fetchAll(PDO::FETCH_ASSOC);
     <div class="navbar">
         <div class="navbar-brand">GradeEase Hub</div>
         <div class="navbar-links">
-            <a href="#">Log out</a>
+            <a href="../scripts/logout.php">Log out</a>
             <a href="#">Change password</a>
         </div>
     </div>
