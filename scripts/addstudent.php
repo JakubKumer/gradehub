@@ -9,6 +9,7 @@ if (isset($_POST["submit"])) {
     $password1 = $_POST['password1'];
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
+    $class = $_POST['class'];
 
     // Data sanitization and validation
     if (strlen($firstName) < 3 || strlen($firstName) > 20) {
@@ -58,12 +59,24 @@ if (isset($_POST["submit"])) {
             $stmt->bindParam(':lastname', $lastName);
 
             if ($stmt->execute()) {
-                $conn->commit();
-                $_SESSION['success'] = "Rejestracja zakończona sukcesem. Możesz się zalogować.";
-                header('Location: ../pages/addstudent.php');
-                exit();
+                // Get the last inserted user_id
+                $userId = $conn->lastInsertId();
+
+                // Insert into students table
+                $stmt = $conn->prepare("INSERT INTO students (user_id, class) VALUES (:user_id, :class)");
+                $stmt->bindParam(':user_id', $userId);
+                $stmt->bindParam(':class', $class);
+
+                if ($stmt->execute()) {
+                    $conn->commit();
+                    $_SESSION['success'] = "Rejestracja zakończona sukcesem. Możesz się zalogować.";
+                    header('Location: ../pages/addstudent.php');
+                    exit();
+                } else {
+                    throw new Exception("Insert into students failed");
+                }
             } else {
-                throw new Exception("Insert query failed");
+                throw new Exception("Insert into users failed");
             }
         } else {
             $conn->rollBack();
@@ -81,5 +94,4 @@ if (!empty($errors)) {
     header('Location: ../pages/addstudent.php');
     exit();
 }
-?>
 ?>
