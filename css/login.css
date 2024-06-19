@@ -1,0 +1,87 @@
+@font-face {
+    font-family: 'Ravie';
+    src: url('fonts/RAVIE.ttf') format('truetype');
+    /* Możesz dodać inne formaty, jeśli są dostępne */
+    font-weight: normal;
+    font-style: normal;
+}
+
+.navbar {
+    background-color: #000000; /* black background */
+    color: #ffffff; /* white text */
+    padding: 10px 20px; /* inner padding */
+    display: flex;
+    justify-content: center; /* center the content horizontally */
+    align-items: center; /* center the content vertically */
+}
+
+.navbar h1 {
+    font-family: 'Ravie', sans-serif;
+    font-size: 1.5rem;
+    font-weight:lighter;
+}
+
+/* Style for the container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:auto;
+    margin-top: 50px;
+}
+
+.box {
+    background-color: #ffffff; /* white background */
+    padding: 20px 40px; /* padding inside the box */
+    border-radius: 10px; /* rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow */
+    text-align: center;
+    width: 300px;
+}
+
+.box h2 {
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333333;
+}
+
+.inputBox {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.inputBox input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+.inputBox span {
+    position: absolute;
+    left: 10px;
+    top: -20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    color: #333333;
+}
+
+input[type="submit"] {
+    background-color: #000000; /* black background */
+    color: #ffffff; /* white text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type="submit"]:hover {
+    background-color: #333333; /* slightly lighter black on hover */
+}

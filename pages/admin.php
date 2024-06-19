@@ -5,6 +5,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role_as'] != 1) {
     header("Location: index.php");
     exit();
 }
+
+// Pobranie danych zalogowanego administratora
+$user_id = $_SESSION['user_id'];
+$sql_admin = "SELECT name, surname FROM users WHERE user_id = :user_id";
+$stmt_admin = $conn->prepare($sql_admin);
+$stmt_admin->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+$stmt_admin->execute();
+$admin = $stmt_admin->fetch(PDO::FETCH_ASSOC);
+
 // Pobranie danych wszystkich studentów
 $sql_students = "
     SELECT users.user_id, users.name AS student_name, users.surname AS student_surname, students.class
@@ -27,8 +36,11 @@ $students = $stmt_students->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="navbar">
-        <div class="navbar-brand">GradeEase Hub</div>
+        <div class="navbar-brand">
+            <a href="admin.php" class="text-white">GradeEase Hub</a>
+        </div>
         <div class="navbar-links">
+            <a href="addstudent.php">Add student</a>
             <a href="../scripts/logout.php">Log out</a>
             <a href="change_passw.php">Change password</a> <!-- Zaktualizowany link -->
         </div>
@@ -37,7 +49,7 @@ $students = $stmt_students->fetchAll(PDO::FETCH_ASSOC);
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Admin Panel</h1>
         <div>
-            <?php if (isset($admin) && is_array($admin)) { ?>
+            <?php if ($admin) { ?>
                 <h2 class="text-xl mb-2">User: <?php echo htmlspecialchars($admin['name'] . ' ' . $admin['surname']); ?></h2>
             <?php } else { ?>
                 <h2 class="text-xl mb-2">User: Unknown</h2>

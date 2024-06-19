@@ -78,8 +78,11 @@ $last_grade = $stmt_last_grade->fetch(PDO::FETCH_ASSOC);
 </head>
 <body>
     <div class="navbar">
-        <div class="navbar-brand">GradeEase Hub</div>
+    <div class="navbar-brand">
+            <a href="admin.php" class="text-white">GradeEase Hub</a>
+        </div>
         <div class="navbar-links">
+            <a href="addstudent.php">Add student</a>
             <a href="../scripts/logout.php">Log out</a>
             <a href="change_passw.php">Change password</a> <!-- Zaktualizowany link -->
         </div>
